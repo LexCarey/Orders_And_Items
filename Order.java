@@ -7,20 +7,46 @@ public class Order {
     private boolean ready;
     private ArrayList<Item> items = new ArrayList<Item>();
 
-    public void orderStatus(){
-        System.out.println(this.getName() + "'s Order:");
-            System.out.println(this.itemsToString(this.getItems()));
-        System.out.println("$" + this.getTotal());
-        System.out.println(this.getReady());
+
+    public Order() {
+        this.name = "Guest";
+        this.items = new ArrayList<Item>();
     }
 
-    public String itemsToString(ArrayList<Item> items) {
-        String allItems = "";
+    public Order(String name) {
+        this.name = name;
+        this.items = new ArrayList<Item>();
+    }
+
+
+    public void display(){
+        System.out.println("\nCustomer's name: " + this.getName());
         for(int i=0; i<this.getItems().size(); i++) {
-            allItems += this.getItems().get(i).getName();
-            allItems += " ";
+            System.out.println(this.getItems().get(i).getName() + " - $" + this.getItems().get(i).getPrice());
         }
-        return allItems;
+        System.out.println("Total: $" + this.getOrderTotal());
+        System.out.println(this.getStatusMessage());
+    }
+
+    public String getStatusMessage() {
+        if(this.ready){
+            return "Your order is ready.";
+        } else{
+            return "Thank you for waitng, Your order will be ready soon.";
+        }
+    }
+
+    public double getOrderTotal() {
+        double temp = 0.0;
+        for(int i=0; i<this.getItems().size(); i++) {
+            temp += this.getItems().get(i).getPrice();
+        }
+        return temp;
+    }
+
+    public void addItems(Item items){
+        this.items.add(items);
+        this.total += items.getPrice();
     }
 
     // NAME GET/SET
@@ -34,7 +60,7 @@ public class Order {
 
     // TOTAL GET/SET
     public void setTotal(double total){
-        this.total += total;
+        this.total = total;
     }
 
     public double getTotal(){
@@ -51,8 +77,8 @@ public class Order {
     }
 
     // ITEM GET/SET
-    public void setItems(Item items){
-        this.items.add(items);
+    public void setItems(ArrayList<Item> items){
+        this.items = items;
     }
 
     public ArrayList<Item> getItems(){
